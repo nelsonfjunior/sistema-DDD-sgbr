@@ -16,6 +16,9 @@ import { Cliente } from 'src/domain/entities/cliente.entity';
     ClienteService,
     ...clienteProvider,
   ],
-  exports: [ClienteService], 
+  exports: [
+    ClienteService,
+    ...clienteProvider,
+  ], 
 })
 export class ClienteModule {}
