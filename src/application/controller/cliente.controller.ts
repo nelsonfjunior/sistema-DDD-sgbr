@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
-import { CreateClienteDto } from "src/domain/dto/cliente.dto.";
+import { CreateClienteDto, UpdateClienteDto } from "src/domain/dto/cliente.dto";
 import { Cliente } from "src/domain/entities/cliente.entity";
 import { ClienteService } from "src/domain/services/cliente.service";
 
@@ -17,7 +17,7 @@ export class ClienteController{
     }
 
     @Put(':id')
-    async update(@Param('id') id: number ,@Body() cliente: CreateClienteDto): Promise<Cliente>{
+    async update(@Param('id') id: number ,@Body() cliente: UpdateClienteDto): Promise<Cliente>{
         return await this.clienteService.update(id, cliente);
     }
 

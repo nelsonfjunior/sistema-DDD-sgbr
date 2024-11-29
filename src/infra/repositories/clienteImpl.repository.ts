@@ -1,8 +1,10 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/sequelize";
+import { CreateClienteDto, UpdateClienteDto } from "src/domain/dto/cliente.dto";
 import { Cliente } from "src/domain/entities/cliente.entity";
 import { IClienteRepository } from "src/domain/repositories/icliente.repository";
-import { InjectModel } from '@nestjs/sequelize';
+
 
 @Injectable()
 export class ClienteRepositoryImpl implements IClienteRepository{
@@ -15,11 +17,11 @@ export class ClienteRepositoryImpl implements IClienteRepository{
         return await this.clienteModel.findOne(options);
       }
     
-      async create(cliente: Cliente): Promise<Cliente> {
+      async create(cliente: CreateClienteDto): Promise<Cliente> {
         return await this.clienteModel.create(cliente);
       }
      
-      async update(id: number, cliente: Cliente): Promise<Cliente> {
+      async update(id: number, cliente: UpdateClienteDto): Promise<Cliente> {
         await this.clienteModel.update(cliente, { where: { id } });
         return this.getById(id);
       }

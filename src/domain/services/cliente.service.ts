@@ -4,7 +4,7 @@ import { CLIENTE_REPOSITORY } from './../../infra/providers/cliente.provider';
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { IClienteRepository } from '../repositories/icliente.repository';
 import { Cliente } from '../entities/cliente.entity';
-import { CreateClienteDto } from '../dto/cliente.dto.';
+import { CreateClienteDto, UpdateClienteDto } from '../dto/cliente.dto';
 import { validateOrReject } from 'class-validator';
 
 @Injectable()
@@ -29,7 +29,7 @@ export class ClienteService {
     return await this.clienteRepository.create(cliente);
   }
 
-  async update(id: number, cliente: CreateClienteDto): Promise<Cliente> {
+  async update(id: number, cliente: UpdateClienteDto): Promise<Cliente> {
     const clienteExists = await this.clienteRepository.getById(id);
     if (!clienteExists) {
       throw new Error('Cliente não encontrado');
