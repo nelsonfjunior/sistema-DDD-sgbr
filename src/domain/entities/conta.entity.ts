@@ -25,7 +25,7 @@ export class Conta extends Model<Conta>{
     @Column
     clienteId: number;
 
-    @BelongsTo(() => Cliente)
+    @BelongsTo(() => Cliente, 'clienteId')
     cliente: Cliente;
 
     @HasMany(() => Transacao)
