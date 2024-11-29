@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 
+import { ApiProperty } from "@nestjs/swagger";
 import { IsBoolean, IsDecimal, IsInt, IsNotEmpty, IsOptional } from "class-validator";
 
 export class CreateContaDto{
@@ -11,14 +12,17 @@ export class CreateContaDto{
     @IsOptional()
     numeroConta: number;
 
+    @ApiProperty({ example: 1000.00, description: 'Saldo inicial da conta' })
     @IsDecimal()
     @IsOptional()
     saldoInicial: number;
 
+    @ApiProperty({ example: true, description: 'Status da conta' })
     @IsBoolean()
     @IsNotEmpty()
     status: boolean;
 
+    @ApiProperty({ example: 1, description: 'ID do cliente' })
     @IsInt()
     @IsNotEmpty()
     clienteId: number
@@ -33,14 +37,17 @@ export class UpdateContaDto {
     @IsOptional()
     numeroConta: number;
   
+    @ApiProperty({ example: 1000.00, description: 'Saldo inicial da conta' })
     @IsDecimal()
     @IsOptional()
     saldoInicial: number;
   
+    @ApiProperty({ example: true, description: 'Status da conta' })
     @IsBoolean()
     @IsOptional()
     status: boolean;
   
+    @ApiProperty({ example: 1, description: 'ID do cliente' })
     @IsInt()
     @IsOptional()
     clienteId: number;
