@@ -6,10 +6,12 @@ import { TransacaoController } from "src/application/controller/transacao.contro
 import { Transacao } from "src/domain/entities/transacao.entity";
 import { TransacaoService } from "src/domain/services/transacao.service";
 import { transacaoProvider } from "../providers/transacao.provider";
+import { ContaModule } from "./conta.module";
 
 @Module({
     imports: [
       SequelizeModule.forFeature([Transacao]),
+      ContaModule
     ],
     controllers: [TransacaoController],
     providers: [

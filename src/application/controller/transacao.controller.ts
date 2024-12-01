@@ -1,33 +1,41 @@
 /* eslint-disable prettier/prettier */
 
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { CreateTransacaoDto, UpdateTransacaoDto } from "src/domain/dto/transacao.dto";
+import { CreateTransacaoDto, CreateTransacaoTransferenciaDto } from "src/domain/dto/transacao.dto";
 import { Transacao } from "src/domain/entities/transacao.entity";
 import { TransacaoService } from "src/domain/services/transacao.service";
 
-@ApiTags('transacoes')
-@Controller('transacoes')
+@ApiTags('movimentacoes')
+@Controller('movimentacoes')
 export class TransacaoController{
     constructor(
         private readonly transacaoService: TransacaoService
     ){}
 
-    @ApiOperation({ summary: 'Criar uma nova transação', description: 'Ao passar uma transação válida ele insere essa transação no banco de dados.' })
-    @ApiResponse({ status: 200, description: 'Transação criada com sucesso!'})
-    @ApiResponse({ status: 400, description: 'Não foi possível criar a transação!'})
-    @Post()
-    async create(@Body() transacao: CreateTransacaoDto): Promise<void>{
-        await this.transacaoService.create(transacao);
+
+    @ApiOperation({ summary: 'Criar um depósito', description: 'Ao passar um depósito válido ele insere essa transação no banco de dados.' })
+    @ApiResponse({ status: 200, description: 'Depósito criado com sucesso!'})
+    @ApiResponse({ status: 400, description: 'Não foi possível criar o depósito!'})
+    @Post('deposito')
+    async deposito(@Body() transacao: CreateTransacaoDto): Promise<Transacao>{
+        return await this.transacaoService.deposito(transacao);
     }
 
-    @ApiOperation({ summary: 'Atualizar uma transação', description: 'Ao passar uma transação válida ele atualiza essa transação no banco de dados.' })
-    @ApiParam({ name: 'id', type: Number, description: 'ID da transação', example: 1 })
-    @ApiResponse({ status: 200, description: 'Transação atualizada com sucesso!'})
-    @ApiResponse({ status: 400, description: 'Não foi possível atualizar a transação!'})
-    @Put(':id')
-    async update(@Param('id') id: number, @Body() transacao: UpdateTransacaoDto): Promise<Transacao>{
-        return await this.transacaoService.update(id, transacao);
+    @ApiOperation({ summary: 'Criar um saque', description: 'Ao passar um saque válido ele insere essa transação no banco de dados.' })
+    @ApiResponse({ status: 200, description: 'Saque criado com sucesso!'})
+    @ApiResponse({ status: 400, description: 'Não foi possível criar o saque!'})
+    @Post('saque')
+    async saque(@Body() transacao: CreateTransacaoDto): Promise<Transacao>{
+        return await this.transacaoService.saque(transacao);
+    }
+
+    @ApiOperation({ summary: 'Criar uma transferência', description: 'Ao passar uma transferência válida ele insere essa transação no banco de dados.' })
+    @ApiResponse({ status: 200, description: 'Transferência criada com sucesso!'})
+    @ApiResponse({ status: 400, description: 'Não foi possível criar a transferência!'})
+    @Post('transferencia')
+    async tranferencia(@Body() transacao: CreateTransacaoTransferenciaDto): Promise<Transacao>{
+        return await this.transacaoService.transferencia(transacao);
     }
 
     @ApiOperation({ summary: 'Deletar uma transação', description: 'Ao passar uma transação válida ele deleta essa transação no banco de dados.' })

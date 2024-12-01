@@ -12,7 +12,6 @@ export class CreateTransacaoDto{
     @IsNotEmpty()
     data: Date;
 
-    @ApiProperty({ example: 'DEPOSITO', description: 'Tipo da transação' })
     @IsEnum(['DEPOSITO', 'SAQUE', 'TRANSFERENCIA'])
     @IsNotEmpty()
     tipo: 'DEPOSITO' | 'SAQUE' | 'TRANSFERENCIA';
@@ -27,30 +26,28 @@ export class CreateTransacaoDto{
     @IsNotEmpty()
     contaOrigemId: number;
 
-    @ApiProperty({ example: 2, description: 'ID da conta de destino' })
     @IsInt()
-    @IsNotEmpty()
+    @IsOptional()
     contaDestinoId: number;
 
 }
 
-export class UpdateTransacaoDto{
-    @IsInt()
-    @IsNotEmpty()
+export class CreateTransacaoTransferenciaDto{
+    @IsInt()I
+    @IsOptional()
     id: number;
 
     @ApiProperty({ example: '2021-10-10', description: 'Data da transação' })
-    @IsOptional()
+    @IsNotEmpty()
     data: Date;
 
-    @ApiProperty({ example: 'DEPOSITO', description: 'Tipo da transação' })
     @IsEnum(['DEPOSITO', 'SAQUE', 'TRANSFERENCIA'])
-    @IsOptional()
+    @IsNotEmpty()
     tipo: 'DEPOSITO' | 'SAQUE' | 'TRANSFERENCIA';
 
     @ApiProperty({ example: 100.00, description: 'Valor da transação' })
     @IsDecimal()
-    @IsOptional()
+    @IsNotEmpty()
     valor: number;
 
     @ApiProperty({ example: 1, description: 'ID da conta de origem' })
@@ -60,7 +57,7 @@ export class UpdateTransacaoDto{
 
     @ApiProperty({ example: 2, description: 'ID da conta de destino' })
     @IsInt()
-    @IsNotEmpty()
+    @IsOptional()
     contaDestinoId: number;
 
 }
