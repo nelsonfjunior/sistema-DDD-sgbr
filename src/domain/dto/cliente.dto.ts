@@ -14,7 +14,7 @@ export class CreateClienteDto{
     @IsNotEmpty()
     nomeCompleto: string;
 
-    @ApiProperty({ example: '123.456.789-00', description: 'CPF do cliente' })
+    @ApiProperty({ example: '12345678900', description: 'CPF do cliente' })
     @IsString()
     @IsNotEmpty()
     cpf: string;
@@ -36,7 +36,7 @@ export class UpdateClienteDto {
     @IsOptional()
     nomeCompleto: string;
   
-    @ApiProperty({ example: '123.456.789-00', description: 'CPF do cliente' })
+    @ApiProperty({ example: '12345678900', description: 'CPF do cliente' })
     @IsString()
     @IsOptional()
     cpf: string;
@@ -54,7 +54,7 @@ export class ClienteResponseDto {
     @ApiProperty({ example: 'João da Silva', description: 'Nome completo do cliente' })
     nomeCompleto: string;
   
-    @ApiProperty({ example: '123.456.789-00', description: 'CPF do cliente' })
+    @ApiProperty({ example: '12345678900', description: 'CPF do cliente' })
     cpf: string;
   
     @ApiProperty({ example: '1999-01-01', description: 'Data de nascimento do cliente' })
@@ -68,6 +68,6 @@ export class ClienteResponseDto {
 }
 
 export class AuthDto {
-  @ApiProperty({ example: '123.456.789-00', description: 'CPF do cliente' })
+  @ApiProperty({ example: '12345678900', description: 'CPF do cliente' })
   cpf: string;
 }

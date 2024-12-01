@@ -8,7 +8,6 @@ import { AuthGuard } from "src/infra/auth/auth.guard";
 
 @ApiTags('clientes')
 @Controller('clientes')
-@UseGuards(AuthGuard)
 @ApiBearerAuth()
 export class ClienteController{
     constructor(
@@ -23,6 +22,7 @@ export class ClienteController{
         return await this.clienteService.create(cliente);
     }
 
+    @UseGuards(AuthGuard)
     @ApiOperation({ summary: 'Atualizar um cliente', description: 'Ao passar um cliente válido ele atualiza esse cliente no banco de dados.' })
     @ApiParam({ name: 'id', type: Number, description: 'ID do cliente', example: 1 })
     @ApiResponse({ status: 200, description: 'Cliente atualizado com sucesso!'})
@@ -32,6 +32,7 @@ export class ClienteController{
         return await this.clienteService.update(id, cliente);
     }
 
+    @UseGuards(AuthGuard)
     @ApiOperation({ summary: 'Deletar um cliente', description: 'Ao passar um cliente válido ele deleta esse cliente no banco de dados.' })
     @ApiParam({ name: 'id', type: Number, description: 'ID do cliente', example: 1 })
     @ApiResponse({ status: 200, description: 'Cliente deletado com sucesso!'})
@@ -41,6 +42,7 @@ export class ClienteController{
         await this.clienteService.delete(id);
     }
 
+    @UseGuards(AuthGuard)
     @ApiOperation({ summary: 'Buscar um cliente', description: 'Ao passar um cliente válido ele busca esse cliente no banco de dados.' })
     @ApiParam({ name: 'id', type: Number, description: 'ID do cliente', example: 1 })
     @ApiResponse({ status: 200, description: 'Cliente encontrado!'})
@@ -50,6 +52,7 @@ export class ClienteController{
         return await this.clienteService.getById(id);
     }
 
+    @UseGuards(AuthGuard)
     @ApiOperation({ summary: 'Buscar todos os clientes', description: 'Busca todos os clientes no banco de dados.' })
     @ApiResponse({ status: 200, description: 'Clientes encontrados!'})
     @ApiResponse({ status: 400, description: 'Clientes não encontrados!'})
