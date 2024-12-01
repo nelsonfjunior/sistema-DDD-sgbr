@@ -4,7 +4,6 @@ import { CLIENTE_REPOSITORY } from './../../infra/providers/cliente.provider';
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { IClienteRepository } from '../repositories/icliente.repository';
 import { ClienteResponseDto, CreateClienteDto, UpdateClienteDto } from '../dto/cliente.dto';
-import { validateOrReject } from 'class-validator';
 
 @Injectable()
 export class ClienteService {
@@ -12,11 +11,6 @@ export class ClienteService {
     @Inject(CLIENTE_REPOSITORY)private readonly clienteRepository: IClienteRepository) {}
 
   async create(cliente: CreateClienteDto): Promise<ClienteResponseDto> {
-    try{
-      await validateOrReject(cliente);
-    }catch(errors){
-      throw new HttpException('Validação falhou.', HttpStatus.BAD_REQUEST);
-    }
     
     const existingCliente = await this.clienteRepository.findOne({ 
       where: { cpf: cliente.cpf } 
@@ -25,6 +19,11 @@ export class ClienteService {
     if (existingCliente) {
       throw new HttpException('CPF já cadastrado', HttpStatus.BAD_REQUEST);
     }
+
+    if(cliente.cpf.length !== 11){
+      throw new HttpException('CPF inválido. Deve ter 11 números', HttpStatus.BAD_REQUEST);
+    }
+
     return await this.clienteRepository.create(cliente);
   }
 
@@ -50,6 +49,14 @@ export class ClienteService {
 
   async getAll(): Promise<ClienteResponseDto[]> {
     return await this.clienteRepository.getAll();
+  }
+
+  async findByCpf(cpf: string): Promise<ClienteResponseDto>{
+    const cliente = await this.clienteRepository.findOne({ where: { cpf } });
+    if(!cliente){
+      throw new HttpException('Cliente não encontrado', HttpStatus.BAD_REQUEST);
+    }
+    return cliente;
   }
 
 }

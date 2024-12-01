@@ -3,7 +3,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { CONTA_REPOSITORY } from "src/infra/providers/conta.provider";
 import { IContaRepository } from "../repositories/iconta.repository";
-import { ContaResponseDto, CreateContaDto, UpdateContaDto } from "../dto/conta.dto";
+import { ContaResponseDto, CreateContaDto } from "../dto/conta.dto";
 import { Conta } from "../entities/conta.entity";
 import { CLIENTE_REPOSITORY } from "src/infra/providers/cliente.provider";
 import { IClienteRepository } from "../repositories/icliente.repository";
@@ -35,14 +35,6 @@ export class ContaService{
         }
 
         return await this.contaRepository.create(conta);
-    }
-
-    async update(id: number, conta: UpdateContaDto): Promise<ContaResponseDto>{
-        const contaExists = await this.contaRepository.getById(id);
-        if(!contaExists){
-            throw new HttpException('Conta não encontrada', HttpStatus.BAD_REQUEST);
-        }
-        return await this.contaRepository.update(id, conta);
     }
 
     async updateStatus(id: number): Promise<ContaResponseDto>{
