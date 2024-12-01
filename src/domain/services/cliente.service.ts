@@ -1,10 +1,9 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
 import { CLIENTE_REPOSITORY } from './../../infra/providers/cliente.provider';
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { IClienteRepository } from '../repositories/icliente.repository';
-import { Cliente } from '../entities/cliente.entity';
-import { CreateClienteDto, UpdateClienteDto } from '../dto/cliente.dto';
+import { ClienteResponseDto, CreateClienteDto, UpdateClienteDto } from '../dto/cliente.dto';
 import { validateOrReject } from 'class-validator';
 
 @Injectable()
@@ -12,11 +11,11 @@ export class ClienteService {
   constructor(
     @Inject(CLIENTE_REPOSITORY)private readonly clienteRepository: IClienteRepository) {}
 
-  async create(cliente: CreateClienteDto): Promise<Cliente> {
+  async create(cliente: CreateClienteDto): Promise<ClienteResponseDto> {
     try{
       await validateOrReject(cliente);
     }catch(errors){
-      throw new BadRequestException('Validação falhou.');
+      throw new HttpException('Validação falhou.', HttpStatus.BAD_REQUEST);
     }
     
     const existingCliente = await this.clienteRepository.findOne({ 
@@ -24,15 +23,15 @@ export class ClienteService {
     });
 
     if (existingCliente) {
-      throw new BadRequestException('CPF já cadastrado');
+      throw new HttpException('CPF já cadastrado', HttpStatus.BAD_REQUEST);
     }
     return await this.clienteRepository.create(cliente);
   }
 
-  async update(id: number, cliente: UpdateClienteDto): Promise<Cliente> {
+  async update(id: number, cliente: UpdateClienteDto): Promise<ClienteResponseDto> {
     const clienteExists = await this.clienteRepository.getById(id);
     if (!clienteExists) {
-      throw new Error('Cliente não encontrado');
+      throw new HttpException('Cliente não encontrado', HttpStatus.BAD_REQUEST);
     }
     return await this.clienteRepository.update(id, cliente);
   }
@@ -41,11 +40,15 @@ export class ClienteService {
     await this.clienteRepository.delete(id);
   }
 
-  async getById(id: number): Promise<Cliente> {
-    return await this.clienteRepository.getById(id);
+  async getById(id: number): Promise<ClienteResponseDto> {
+    const cliente = await this.clienteRepository.getById(id);
+    if(!cliente){
+      throw new HttpException('Cliente não encontrado', HttpStatus.BAD_REQUEST);
+    }
+    return cliente;
   }
 
-  async getAll(): Promise<Cliente[]> {
+  async getAll(): Promise<ClienteResponseDto[]> {
     return await this.clienteRepository.getAll();
   }
 

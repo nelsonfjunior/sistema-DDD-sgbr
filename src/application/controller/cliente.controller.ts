@@ -2,8 +2,7 @@
 
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { CreateClienteDto, UpdateClienteDto } from "src/domain/dto/cliente.dto";
-import { Cliente } from "src/domain/entities/cliente.entity";
+import { ClienteResponseDto, CreateClienteDto, UpdateClienteDto } from "src/domain/dto/cliente.dto";
 import { ClienteService } from "src/domain/services/cliente.service";
 
 @ApiTags('clientes')
@@ -17,7 +16,7 @@ export class ClienteController{
     @ApiResponse({ status: 200, description: 'Cliente criado com sucesso!'})
     @ApiResponse({ status: 400, description: 'Não foi possível criar o cliente!'})
     @Post()
-    async create(@Body() cliente: CreateClienteDto): Promise<Cliente>{
+    async create(@Body() cliente: CreateClienteDto): Promise<ClienteResponseDto>{
         return await this.clienteService.create(cliente);
     }
 
@@ -26,7 +25,7 @@ export class ClienteController{
     @ApiResponse({ status: 200, description: 'Cliente atualizado com sucesso!'})
     @ApiResponse({ status: 400, description: 'Não foi possível atualizar o cliente!'})
     @Put(':id')
-    async update(@Param('id') id: number ,@Body() cliente: UpdateClienteDto): Promise<Cliente>{
+    async update(@Param('id') id: number ,@Body() cliente: UpdateClienteDto): Promise<ClienteResponseDto>{
         return await this.clienteService.update(id, cliente);
     }
 
@@ -44,7 +43,7 @@ export class ClienteController{
     @ApiResponse({ status: 200, description: 'Cliente encontrado!'})
     @ApiResponse({ status: 400, description: 'Cliente não encontrado!'})
     @Get(':id')
-    async getById(@Param('id') id: number): Promise<Cliente>{
+    async getById(@Param('id') id: number): Promise<ClienteResponseDto>{
         return await this.clienteService.getById(id);
     }
 
@@ -52,7 +51,7 @@ export class ClienteController{
     @ApiResponse({ status: 200, description: 'Clientes encontrados!'})
     @ApiResponse({ status: 400, description: 'Clientes não encontrados!'})
     @Get()
-    async getAll(): Promise<Cliente[]>{
+    async getAll(): Promise<ClienteResponseDto[]>{
         return await this.clienteService.getAll();
     }
     

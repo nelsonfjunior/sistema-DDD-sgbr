@@ -3,7 +3,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsDateString, IsInt, IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { isCpf } from "src/utils/validation/isCpf.validator";
-
+import { Conta } from "../entities/conta.entity";
 
 export class CreateClienteDto{ 
     @IsInt()
@@ -25,6 +25,7 @@ export class CreateClienteDto{
     @IsDateString()
     @IsNotEmpty()
     dataNascimento: Date;
+
 }
 
 export class UpdateClienteDto {
@@ -48,3 +49,23 @@ export class UpdateClienteDto {
     @IsOptional()
     dataNascimento: Date;
   }
+  
+export class ClienteResponseDto {
+    @ApiProperty({ example: 1, description: 'ID do cliente' })
+    id: number;
+  
+    @ApiProperty({ example: 'João da Silva', description: 'Nome completo do cliente' })
+    nomeCompleto: string;
+  
+    @ApiProperty({ example: '123.456.789-00', description: 'CPF do cliente' })
+    cpf: string;
+  
+    @ApiProperty({ example: '1999-01-01', description: 'Data de nascimento do cliente' })
+    dataNascimento: Date;
+  
+    @ApiProperty({
+      type: () => [Conta], 
+      description: 'Lista de contas relacionadas',
+    })
+    contas: Conta[];
+}
