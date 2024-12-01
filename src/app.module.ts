@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 
 import { Module } from '@nestjs/common';
-import { DatabaseModule } from './database.module';
+import { DatabaseModule } from './infra/modules/database.module';
 import { ClienteModule } from './infra/modules/cliente.module';
 import { ContaModule } from './infra/modules/conta.module';
 import { TransacaoModule } from './infra/modules/transacao.module';

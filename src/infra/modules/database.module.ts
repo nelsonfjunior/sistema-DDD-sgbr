@@ -2,9 +2,9 @@
 
 import { Module } from "@nestjs/common";
 import { SequelizeModule } from "@nestjs/sequelize";
-import { Cliente } from "./domain/entities/cliente.entity";
-import { Conta } from "./domain/entities/conta.entity";
-import { Transacao } from "./domain/entities/transacao.entity";
+import { Cliente } from "../../domain/entities/cliente.entity";
+import { Conta } from "../../domain/entities/conta.entity";
+import { Transacao } from "../../domain/entities/transacao.entity";
 
 
 @Module({
