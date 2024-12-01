@@ -29,9 +29,6 @@ export class Conta extends Model<Conta>{
     cliente: Cliente;
 
     @HasMany(() => Transacao)
-    transacoesOrigem: Transacao[];
-
-    @HasMany(() => Transacao)
-    transacoesDestino: Transacao[];
+    transacoes: Transacao[];
 
 }

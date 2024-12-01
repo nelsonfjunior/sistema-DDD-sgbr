@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from "@nestjs/common";
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { CreateContaDto, UpdateContaDto } from "src/domain/dto/conta.dto";
+import { ContaResponseDto, CreateContaDto, UpdateContaDto } from "src/domain/dto/conta.dto";
 import { Conta } from "src/domain/entities/conta.entity";
 import { ContaService } from "src/domain/services/conta.service";
 
@@ -26,8 +26,17 @@ export class ContaController{
     @ApiResponse({ status: 200, description: 'Conta atualizada com sucesso!'})
     @ApiResponse({ status: 400, description: 'Não foi possível atualizar a conta!'})
     @Put(':id')
-    async update(@Param('id') id: number, @Body() conta: UpdateContaDto): Promise<Conta>{
-        return await this.contaService.update(conta.id, conta);
+    async update(@Param('id') id: number, @Body() conta: UpdateContaDto): Promise<ContaResponseDto>{
+        return await this.contaService.update(id, conta);
+    }
+
+    @ApiOperation({ summary: 'Atualizar status de uma conta', description: 'Ao passar uma conta válida ele atualiza o status dessa conta no banco de dados.' })
+    @ApiParam({ name: 'id', type: Number, description: 'ID da conta', example: 1 })
+    @ApiResponse({ status: 200, description: 'Status da conta atualizado com sucesso!'})
+    @ApiResponse({ status: 400, description: 'Não foi possível atualizar o status da conta!'})
+    @Patch(':id')
+    async updateStatus(@Param('id') id: number): Promise<ContaResponseDto>{
+        return await this.contaService.updateStatus(id);
     }
 
     @ApiOperation({ summary: 'Deletar uma conta', description: 'Ao passar uma conta válida ele deleta essa conta no banco de dados.' })
@@ -44,7 +53,7 @@ export class ContaController{
     @ApiResponse({ status: 200, description: 'Conta encontrada!'})
     @ApiResponse({ status: 400, description: 'Conta não encontrada!'})
     @Get(':id')
-    async getById(@Param('id') id: number): Promise<Conta>{
+    async getById(@Param('id') id: number): Promise<ContaResponseDto>{
         return await this.contaService.getById(id);
     }
 
