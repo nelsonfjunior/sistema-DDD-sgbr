@@ -10,6 +10,7 @@ async function bootstrap() {
     .setTitle('Banco SGBR')
     .setDescription('Sistema bancário')
     .setVersion('1.0')
+    .addBearerAuth()
     .addTag('clientes')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
