@@ -1,12 +1,15 @@
 /* eslint-disable prettier/prettier */
 
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { ClienteResponseDto, CreateClienteDto, UpdateClienteDto } from "src/domain/dto/cliente.dto";
 import { ClienteService } from "src/domain/services/cliente.service";
+import { AuthGuard } from "src/infra/auth/auth.guard";
 
 @ApiTags('clientes')
 @Controller('clientes')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 export class ClienteController{
     constructor(
         private readonly clienteService: ClienteService

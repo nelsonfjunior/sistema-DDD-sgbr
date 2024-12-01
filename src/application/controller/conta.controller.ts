@@ -1,13 +1,16 @@
 /* eslint-disable prettier/prettier */
 
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from "@nestjs/common";
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { ContaResponseDto, CreateContaDto, UpdateContaDto } from "src/domain/dto/conta.dto";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ContaResponseDto, CreateContaDto } from "src/domain/dto/conta.dto";
 import { Conta } from "src/domain/entities/conta.entity";
 import { ContaService } from "src/domain/services/conta.service";
+import { AuthGuard } from "src/infra/auth/auth.guard";
 
 @ApiTags('contas')
 @Controller('contas')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 export class ContaController{
     constructor(
         private readonly contaService: ContaService
@@ -20,16 +23,7 @@ export class ContaController{
     async create(@Body() conta: CreateContaDto): Promise<Conta>{
         return await this.contaService.create(conta);
     }
-
-    @ApiOperation({ summary: 'Atualizar uma conta', description: 'Ao passar uma conta válida ele atualiza essa conta no banco de dados.' })
-    @ApiParam({ name: 'id', type: Number, description: 'ID da conta', example: 1 })
-    @ApiResponse({ status: 200, description: 'Conta atualizada com sucesso!'})
-    @ApiResponse({ status: 400, description: 'Não foi possível atualizar a conta!'})
-    @Put(':id')
-    async update(@Param('id') id: number, @Body() conta: UpdateContaDto): Promise<ContaResponseDto>{
-        return await this.contaService.update(id, conta);
-    }
-
+    
     @ApiOperation({ summary: 'Atualizar status de uma conta', description: 'Ao passar uma conta válida ele atualiza o status dessa conta no banco de dados.' })
     @ApiParam({ name: 'id', type: Number, description: 'ID da conta', example: 1 })
     @ApiResponse({ status: 200, description: 'Status da conta atualizado com sucesso!'})

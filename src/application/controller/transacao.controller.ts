@@ -1,13 +1,16 @@
 /* eslint-disable prettier/prettier */
 
-import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { CreateTransacaoDto, CreateTransacaoTransferenciaDto } from "src/domain/dto/transacao.dto";
 import { Transacao } from "src/domain/entities/transacao.entity";
 import { TransacaoService } from "src/domain/services/transacao.service";
+import { AuthGuard } from "src/infra/auth/auth.guard";
 
 @ApiTags('movimentacoes')
 @Controller('movimentacoes')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 export class TransacaoController{
     constructor(
         private readonly transacaoService: TransacaoService
